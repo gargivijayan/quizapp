@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Details</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="main_head">{{ course.course_name }}</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{{ course.thumbnail.url }}" alt="Course Thumbnail">
+            </div>
+            <div class="col-md-6">
+                <p>Description: {{ course.course_description }}</p>
+                <p>Price: {{ course.course_price }}</p>
+                <p>Offer Price: {{ course.course_offer_price }}</p>
+                <p>Type: {{ course.course_type }}</p>
+                <p>Status: {{ course.course_status }}</p>
+
+                <p>
+                    "Welcome to our quiz section, where you can test your knowledge on a wide range of computer courses
+                    and technologies! Whether you're interested in programming languages, web development,
+                    cybersecurity, or emerging technologies like artificial intelligence and blockchain, we've got you
+                    covered. Our quizzes are designed to challenge and educate, providing valuable insights into the
+                    ever-evolving world of technology. So, gear up, select your area of interest, and let's dive into
+                    the fascinating realm of computer science together!"
+                </p>
+
+
+
+
+                <!-- <form method="post" action="{% url 'submit_quiz' %}">
+                    {% csrf_token %}
+                    {% for quiz in quizzes %}
+                        <h2>{{ quiz.quiz_title }}</h2>
+                        <ol>
+                            {% for question in quiz.quizquestion_set.all %}
+                                <li>{{ question.question_text }}</li>
+                                <ul>
+                                    {% for choice in question.choices.all %}
+                                        <li><input type="radio" name="question{{ question.id }}" value="{{ choice.id }}"> {{ choice.choice_text }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endfor %}
+                        </ol>
+                    {% endfor %}
+                    <button type="submit">Submit</button>
+                </form>
+                 -->
+
+                 {% for quiz in quizzes %}
+                 <h2>{{ quiz.quiz_title }}</h2>
+                 <form method="post" action="">
+                     {% csrf_token %}
+                     <ol>
+                         {% for question in quiz.quizquestion_set.all %}
+                             <li>{{ question.question_text }}</li>
+                             <ul>
+                                 {% for choice in question.choices.all %}
+                                     <li><input type="radio" name="question{{ question.id }}" value="{{ choice.id }}"> {{ choice.choice_text }}</li>
+                                 {% endfor %}
+                             </ul>
+                         {% endfor %}
+                     </ol>
+                    
+                     <button type="submit" class="btn btn-info">Submit</button>
+                 </form>
+             {% endfor %}
+         
+             {% if total_score is not None %}
+                 <p>Your total score is: {{ total_score }}</p>
+             {% endif %}
+
+
+                
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+{% endblock%}

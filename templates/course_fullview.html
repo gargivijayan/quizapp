@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <h1 class="main_head ">ALL COURSES</h1>
+    <div class="row">
+        {% for course in courses %}
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <img src="{{ course.thumbnail.url }}" class="card-img-top" alt="Course Thumbnail">
+                <div class="card-body">
+                    <h5 class="card-title center-text ">{{ course.course_name }}</h5>
+                  
+                    <p class="card-text">Price: {{ course.course_price }}</p>
+                   
+                    <button class="btn btn-primary read-more-btn"
+                        onclick="window.location.href='{% url 'course_detail' course.id %}'">Read More</button>
+
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="courseDetailsModal{{ course.id }}" tabindex="-1" role="dialog"
+                        aria-labelledby="courseDetailsModalLabel{{ course.id }}" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="courseDetailsModalLabel{{ course.id }}">Course Details
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Description: {{ course.course_description }}</p>
+                                    <p>Offer Price: {{ course.course_offer_price }}</p>
+                                    <p>Type: {{ course.course_type }}</p>
+                                    <p>Status: {{ course.course_status }}</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+
+    <div class="pagination justify-content-center">
+        <ul class="pagination">
+            {% if courses.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ courses.previous_page_number }}">Previous</a></li>
+            {% endif %}
+            
+            {% for page_num in courses.paginator.page_range %}
+                <li class="page-item {% if page_num == courses.number %}active{% endif %}">
+                    <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                </li>
+            {% endfor %}
+            
+            {% if courses.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ courses.next_page_number }}">Next</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    
+
+
+
+</div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Courses</title>
+</head>
+<body>
+    <div class="container">
+        <h1 class="main_head">All Courses</h1>
+        <div class="row">
+            {% for course in courses %}
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <img src="{{ course.thumbnail.url }}" class="card-img-top" alt="Course Thumbnail">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ course.course_name }}</h5>
+                        <p class="card-text">Price: {{ course.course_price }}</p>
+                        <a href="{% url 'course_detail' course.id %}" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <!-- Pagination links -->
+<!-- <div class="pagination">
+            <span class="step-links">
+                {% if courses.has_previous %}
+                    <a href="?page=1">&laquo; First</a>
+                    <a href="?page={{ courses.previous_page_number }}">Previous</a>
+                {% endif %}
+        
+                <span class="current">
+                    Page {{ courses.number }} of {{ courses.paginator.num_pages }}.
+                </span>
+        
+                {% if courses.has_next %}
+                    <a href="?page={{ courses.next_page_number }}">Next</a>
+                    <a href="?page={{ courses.paginator.num_pages }}">Last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+</body>
+</html> -->

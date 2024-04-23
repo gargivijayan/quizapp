@@ -1,0 +1,53 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+</head>
+<body>
+    <form action="{% url 'grade_quiz' %}" method="post" class="fo">
+        {% csrf_token %}
+        {% for question in questions %}
+            <h3>{{ question.question_text }}</h3>
+            {% for choice in question.choices.all %}
+                <input type="radio" id="{{ choice.id }}" name="question_{{ question.id }}" value="{{ choice.id }}">
+                <label for="{{ choice.id }}">{{ choice.choice_text }}</label><br>
+            {% endfor %}
+            <br>
+        {% endfor %}
+        <button type="submit" class="button">Submit</button>
+    </form>
+    
+</body>
+</html> -->
+
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+</head>
+<body>
+    <form action="{% url 'grade_quiz' %}" method="post">
+        {% csrf_token %}
+        {% for question in questions %}
+            <p>{{ question.question_text }}</p>
+            <ul>
+                {% for choice in question.choices.all %}
+                    <li>
+                        <input type="radio" name="question{{ question.id }}" value="{{ choice.id }}">
+                        {{ choice.choice_text }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
+
